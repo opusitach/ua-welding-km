@@ -4,8 +4,12 @@ services:
     image: ua-welding-km:latest
     container_name: ua-welding-km
     restart: unless-stopped
-    ports:
-      - "${PORT:-8080}:8080"
+    # No published ports: the shared Caddy (opusitach/infra-websites) terminates
+    # TLS and reaches the container over the external `edge` network by alias.
+    networks:
+      edge:
+        aliases:
+          - welding-km-app # must match reverse_proxy in infra-websites/caddy/Caddyfile
     read_only: true
     tmpfs:
       - /tmp
@@ -24,3 +28,7 @@ services:
       options:
         max-size: "10m"
         max-file: "3"
+
+networks:
+  edge:
+    external: true

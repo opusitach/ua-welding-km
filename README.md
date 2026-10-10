@@ -42,19 +42,23 @@ npm run build     # prebuild (картинки) + next build → out/
 Один контейнер, поднимается через Compose. Образ собирается в три стадии: `npm ci` → `npm run build` →
 `nginxinc/nginx-unprivileged:alpine` с содержимым `out/`. Итоговый образ ~85 МБ, без Node, nginx работает не от root.
 
+На сервере (сеть `edge` создаётся один раз в [infra-websites](https://github.com/opusitach/infra-websites) через `make network`):
+
 ```bash
 docker compose up -d --build
 docker compose ps         # статус должен стать healthy
 ```
 
-Сайт доступен на http://localhost:8080. Порт на хосте меняется переменной `PORT` (в `.env` или в окружении):
+Порт на хост не публикуется. Контейнер отдаёт только HTTP, а TLS-сертификаты, HSTS и редирект
+`www.welding-km.com` → `welding-km.com` делает общий Caddy из infra-websites: он ходит в контейнер
+по сети `edge` на `welding-km-app:8080`.
+
+Локально, без Caddy, порт публикуется отдельным файлом. Сайт будет на http://localhost:8080, порт на хосте меняется переменной `PORT`:
 
 ```bash
-PORT=3000 docker compose up -d --build
+docker network create edge   # один раз
+docker compose -f docker-compose.yml -f docker-compose.local.yml up -d --build
 ```
-
-Контейнер отдаёт только HTTP. TLS-сертификаты и редирект `www.welding-km.com` → `welding-km.com`
-настраиваются на reverse proxy перед контейнером (проксировать на `http://<хост>:${PORT}`).
 
 ### Что настроено в nginx.conf
 

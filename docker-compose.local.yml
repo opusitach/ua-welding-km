@@ -1,0 +1,7 @@
+# Local run on a dev machine, without the server's Caddy:
+#   docker network create edge   # once
+#   docker compose -f docker-compose.yml -f docker-compose.local.yml up -d --build
+services:
+  web:
+    ports:
+      - "${PORT:-8080}:8080"
