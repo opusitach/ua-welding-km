@@ -1,0 +1,199 @@
+/* ==========================================================================
+   Hero. Mobile/tablet first: photo band on top, text below.
+   ≥1024: text column left, photo pinned to the right edge with a diagonal clip.
+   The photo width is derived from the text column so the two never collide.
+   ========================================================================== */
+
+.hero {
+  position: relative;
+  overflow: hidden;
+}
+
+/* ---------- Photo ---------- */
+.media {
+  position: relative;
+  height: min(56vw, 420px);
+}
+
+.picture {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  clip-path: polygon(0 0, 100% 0, 100% 76%, 0 100%);
+}
+
+.img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 46%;
+  transform-origin: 60% 40%;
+  animation: photoIn 1.4s var(--ease-out) both;
+}
+
+.shade {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(0deg, rgba(13, 15, 14, 0.55) 0%, rgba(13, 15, 14, 0) 55%);
+  clip-path: polygon(0 0, 100% 0, 100% 76%, 0 100%);
+}
+
+.line {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+}
+.line line {
+  stroke: var(--accent);
+  stroke-width: 4;
+}
+/* Diagonal appears with a composited fade/slide (clip-path animation would repaint every frame). */
+.lineMobile { animation: lineInX 0.9s var(--ease-out) 0.45s both; }
+.lineDesktop { animation: lineInY 1s var(--ease-out) 0.45s both; }
+.lineDesktop { display: none; }
+
+/* ---------- Text ---------- */
+.inner {
+  position: relative;
+  padding-top: clamp(32px, 6vw, 56px);
+  padding-bottom: clamp(56px, 9vw, 96px);
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(20px, 2.2vw, 28px);
+  max-width: 680px;
+}
+
+.title {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: clamp(30px, 8.1vw, 64px);
+  line-height: 1.04;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+  color: var(--text-heading);
+}
+.title > span { display: inline-block; }
+.accent { color: var(--accent); }
+
+.lead {
+  font-size: clamp(18px, 1.55vw, 22px);
+  line-height: 1.5;
+  color: var(--text-2);
+  max-width: 600px;
+  text-wrap: pretty;
+}
+
+.buttons {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 16px 20px;
+  padding-top: 12px;
+}
+
+/* Secondary hero button: Barlow, sentence case, as in the mockup */
+.call {
+  padding: 0 28px;
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 18px;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.note {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text);
+}
+.noteIcon { color: var(--accent); flex-shrink: 0; }
+
+@media (max-width: 599px) {
+  .buttons { flex-direction: column; align-items: stretch; }
+  .buttons > a { width: 100%; padding-inline: 20px; }
+}
+
+/* ---------- Desktop ---------- */
+@media (min-width: 1024px) {
+  .hero {
+    --text-col: clamp(500px, 47vw, 680px);
+    /* vw (not %) so the same values resolve identically inside font-size / margins below */
+    --container-left: max(var(--gutter), (100vw - var(--container)) / 2);
+    --photo-w: calc(100vw - var(--container-left) - var(--text-col));
+    display: flex;
+    align-items: center;
+    min-height: clamp(620px, 50vw, 760px);
+  }
+
+  .media {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: var(--photo-w);
+    height: auto;
+  }
+
+  .picture,
+  .shade { clip-path: polygon(26% 0, 100% 0, 100% 100%, 0 100%); }
+
+  .img { object-position: 50% 60%; transform-origin: 50% 60%; }
+
+  .shade { background: linear-gradient(90deg, var(--bg) 0%, rgba(13, 15, 14, 0) 45%); }
+
+  .lineDesktop { display: block; }
+  .lineMobile { display: none; }
+
+  .inner {
+    width: 100%;
+    padding-top: clamp(56px, 6vw, 96px);
+    padding-bottom: clamp(64px, 7vw, 112px);
+  }
+
+  .content {
+    /* Keep the whole column left of the diagonal (its lowest point is the photo's left edge). */
+    max-width: calc(var(--text-col) - 40px);
+  }
+
+  .title {
+    /* "SVÁŘEČSKÉ PRÁCE" ≈ 10.3em wide. The H1 sits in the upper part of the hero where the diagonal
+       is further right (≈ +12% of the photo width), so it may use a bit more than the text column. */
+    font-size: min(76px, calc((var(--text-col) - 40px + 0.12 * var(--photo-w)) / 10.4));
+    margin-right: calc(-0.12 * var(--photo-w));
+  }
+}
+
+/* ---------- Entrance animation (CSS only; reduced-motion ends in the final state) ---------- */
+.enter {
+  animation: up 0.8s var(--ease-out) both;
+  animation-delay: var(--d, 0ms);
+}
+
+@keyframes up {
+  from { opacity: 0; transform: translate3d(0, 24px, 0); }
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes photoIn {
+  from { opacity: 0; transform: scale(1.04); }
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes lineInX {
+  from { opacity: 0; transform: translate3d(-40px, 0, 0); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes lineInY {
+  from { opacity: 0; transform: translate3d(0, -40px, 0); }
+  to { opacity: 1; transform: none; }
+}

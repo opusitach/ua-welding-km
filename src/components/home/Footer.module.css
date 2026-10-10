@@ -1,0 +1,68 @@
+.footer {
+  background: var(--bg-footer);
+  border-top: 1px solid var(--line);
+  padding-top: 64px;
+}
+
+.top {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 32px;
+  padding-bottom: 40px;
+}
+
+.logoWrap { flex-shrink: 0; }
+
+.logo {
+  height: 72px;
+  width: auto;
+}
+
+.legal {
+  max-width: 560px;
+  font-size: 15px;
+  line-height: 1.7;
+  color: var(--text-small);
+}
+
+.nav { display: flex; flex-direction: column; gap: 12px; flex-shrink: 0; white-space: nowrap; }
+
+.navLink {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  font-size: 15px;
+  color: var(--text);
+  text-underline-offset: 4px;
+}
+.navLink:hover { color: var(--accent-hover); }
+
+.bottom {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-block: 24px;
+  border-top: 1px solid var(--line);
+  font-size: 14px;
+  color: var(--text-muted);
+}
+
+@media (min-width: 900px) {
+  .top {
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 64px;
+  }
+  .bottom {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .navLink { min-height: 0; margin-top: 2px; }
+}
+
+/* Leave room for the sticky call bar on phones */
+@media (max-width: 767px) {
+  .bottom { padding-bottom: calc(24px + 76px + env(safe-area-inset-bottom)); }
+}

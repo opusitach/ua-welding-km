@@ -1,0 +1,40 @@
+.stripe {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: clamp(52px, 5vw, 72px);
+  background: var(--accent);
+  overflow: hidden;
+}
+
+.words {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  gap: clamp(8px, 1.9vw, 28px);
+  padding-inline: var(--gutter);
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(11px, 1.25vw, 18px);
+  letter-spacing: clamp(0.06em, 0.02em + 0.3vw, 0.28em);
+  line-height: 1;
+  color: var(--bg);
+  white-space: nowrap;
+}
+.sep { font-weight: 400; }
+
+.hatch {
+  display: none;
+  flex-shrink: 0;
+  align-self: stretch;
+  width: clamp(160px, 29vw, 420px);
+}
+
+@media (min-width: 900px) {
+  .words {
+    justify-content: flex-start;
+    padding-inline: max(var(--gutter), (100% - var(--container)) / 2) 32px;
+  }
+  .hatch { display: block; }
+}

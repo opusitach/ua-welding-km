@@ -1,0 +1,147 @@
+.section {
+  border-top: 1px solid var(--line);
+  padding-block: var(--section-y);
+  overflow-x: clip; /* the card slides in from the right; never let it widen the page */
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: clamp(56px, 7vw, 96px);
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  min-width: 0;
+}
+.headTitle {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 26px;
+  font-style: normal;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: clamp(16px, 1.6vw, 22px);
+  min-width: 0;
+}
+
+.person {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.personName {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(20px, 1.7vw, 24px);
+  line-height: 1.25;
+  color: var(--text-heading);
+}
+.personRole {
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: var(--accent);
+}
+
+.link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 48px;
+  color: var(--text-heading);
+  text-decoration: none;
+  overflow-wrap: anywhere;
+  background-image: linear-gradient(var(--accent), var(--accent));
+  background-repeat: no-repeat;
+  background-position: 0 calc(100% - 6px);
+  background-size: 0 2px;
+  transition: color 0.25s ease, background-size 0.35s var(--ease-out);
+}
+.link:hover { color: var(--accent-hover); background-size: 100% 2px; }
+.phone { font-size: clamp(22px, 1.7vw, 24px); font-weight: 600; }
+.mail { font-size: clamp(18px, 1.5vw, 21px); font-weight: 500; }
+
+.addr {
+  font-size: 19px;
+  line-height: 1.5;
+  color: var(--text-heading);
+}
+
+/* IČO / DIČ */
+.ids {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px 48px;
+  margin: 0;
+  padding-top: 32px;
+  border-top: 1px solid var(--accent);
+}
+.id {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+.idRing { width: 48px; height: 48px; }
+.idLabel {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 16px;
+  color: var(--accent);
+}
+.idValue {
+  margin: 0;
+  font-size: 19px;
+  color: var(--text-heading);
+}
+
+/* Inquiry card */
+.card {
+  align-self: start;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: clamp(28px, 3.3vw, 48px);
+  background: var(--bg-2);
+  border: 1px solid var(--line);
+  border-top: 4px solid var(--accent);
+}
+.cardTitle {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(22px, 1.8vw, 26px);
+  line-height: 1.2;
+  text-transform: uppercase;
+  color: var(--text-heading);
+}
+.cardText {
+  font-size: 19px;
+  line-height: 1.6;
+  color: var(--text-2);
+}
+.cardBtn {
+  width: 100%;
+  gap: 12px;
+  padding-inline: 16px;
+  text-align: center;
+}
+.mailIcon { color: var(--accent); }
+
+@media (max-width: 479px) {
+  .card { padding: 28px 22px; }
+  .cardBtn { font-size: 14px; letter-spacing: 0.04em; gap: 10px; padding-inline: 12px; }
+}
+
+@media (min-width: 1024px) {
+  .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}

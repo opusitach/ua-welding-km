@@ -1,0 +1,263 @@
+.section {
+  padding-top: var(--section-y);
+  padding-bottom: calc(var(--section-y) + 8px);
+}
+
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(48px, 5vw, 72px);
+}
+
+/* ---------- Head + badge ---------- */
+.head {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+.headTitle {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.badge {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 20px clamp(20px, 2vw, 28px);
+  border: 2px solid var(--accent);
+}
+.badgeIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: var(--bg);
+}
+.badgeText {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.badgeTitle {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: clamp(18px, 1.55vw, 22px);
+  line-height: 1.25;
+  text-transform: uppercase;
+  color: var(--text-heading);
+}
+.badgeSub {
+  font-size: 16px;
+  line-height: 1.45;
+  color: var(--text-2);
+}
+
+@media (min-width: 1200px) {
+  .head {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 80px;
+  }
+  .badge { flex-shrink: 0; }
+}
+
+/* ---------- Steps: mobile (vertical) first ---------- */
+.track { position: relative; --circle: 64px; --gap: 0px; }
+
+/* The group wrapper must not fade/slide itself (overrides the global [data-reveal] state). */
+:global(.js) .track[data-reveal] {
+  opacity: 1;
+  transform: none;
+}
+
+.line { display: none; }
+
+.steps {
+  --circle: 64px;
+  display: flex;
+  flex-direction: column;
+}
+
+.step {
+  position: relative;
+  display: grid;
+  grid-template-columns: var(--circle) minmax(0, 1fr);
+  grid-template-areas:
+    "circle krok"
+    "circle title"
+    "circle text";
+  grid-template-rows: auto auto 1fr;
+  column-gap: 20px;
+  row-gap: 8px;
+  align-content: start;
+  padding-bottom: 40px;
+}
+.step:last-child { padding-bottom: 0; }
+
+.circle {
+  grid-area: circle;
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--circle);
+  height: var(--circle);
+  border: 2px solid var(--accent);
+  border-radius: 50%;
+  background: var(--bg);
+  color: var(--accent);
+}
+.circle svg { width: 26px; height: 26px; }
+.circleFilled { background: var(--accent); color: var(--bg); }
+
+/* Vertical dashed segment from this circle to the next one */
+.connector {
+  position: absolute;
+  left: calc(var(--circle) / 2 - 1px);
+  top: var(--circle);
+  bottom: 0;
+  border-left: 2px dashed var(--line-dashed);
+  transform-origin: top center;
+}
+
+.krok {
+  grid-area: krok;
+  align-self: center;
+  padding-top: 6px;
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: 14px;
+  letter-spacing: 0.2em;
+  color: var(--accent);
+}
+
+.stepTitle {
+  grid-area: title;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(19px, 1.55vw, 22px);
+  line-height: 1.25;
+  text-transform: uppercase;
+  color: var(--text-heading);
+}
+
+.stepText {
+  grid-area: text;
+  font-size: 18px;
+  line-height: 1.6;
+  color: var(--text-3);
+}
+
+/* ---------- Tablet: 2×2, no connecting line ---------- */
+@media (min-width: 768px) {
+  .steps {
+    --circle: 72px;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 48px 40px;
+  }
+  .step {
+    grid-template-columns: var(--circle) minmax(0, 1fr);
+    grid-template-areas:
+      "circle krok"
+      "title title"
+      "text text";
+    grid-template-rows: auto;
+    column-gap: 18px;
+    row-gap: 16px;
+    padding-bottom: 0;
+  }
+  .step:nth-child(n) { padding-bottom: 0; }
+  .krok { padding-top: 0; font-size: 15px; }
+  .circle svg { width: 30px; height: 30px; }
+  .connector { display: none; }
+  .stepTitle { margin-top: 6px; }
+  .stepText { max-width: 420px; }
+}
+
+/* ---------- Desktop: 4 in a row with horizontal dashed line (as mockup) ---------- */
+@media (min-width: 1024px) {
+  .steps {
+    --circle: 72px;
+    --gap: 24px;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: var(--gap);
+  }
+  .step { column-gap: 14px; }
+  .track { --circle: 72px; --gap: 24px; }
+  .circle svg { width: 32px; height: 32px; }
+  .stepText { max-width: 260px; }
+
+  .line {
+    display: block;
+    position: absolute;
+    left: calc(var(--circle) / 2);
+    right: calc((100% - 3 * var(--gap)) / 4 - var(--circle) / 2);
+    top: calc(var(--circle) / 2 - 1px);
+    border-top: 2px dashed var(--line-dashed);
+    transform-origin: left center;
+  }
+
+  /* "KROK 0x" label masks the line behind it, as in the mockup */
+  .krok {
+    white-space: nowrap;
+    position: relative;
+    z-index: 1;
+    justify-self: start;
+    padding-right: 12px;
+    background: var(--bg);
+  }
+}
+
+@media (min-width: 1280px) {
+  .track { --circle: 88px; --gap: 40px; }
+  .steps { --circle: 88px; --gap: 40px; }
+  .step { column-gap: 18px; }
+}
+
+/* ---------- Draw-in when the track enters the viewport (JS only) ---------- */
+:global(.js) .track .line { transform: scaleX(0); transition: transform 1.2s var(--ease-out) 0.15s; }
+:global(.js) .track .connector { transform: scaleY(0); transition: transform 0.6s var(--ease-out) calc(0.35s + var(--i) * 0.22s); }
+:global(.js) .track .circle {
+  opacity: 0;
+  transform: scale(0.6);
+  transition:
+    opacity 0.45s ease calc(0.1s + var(--i) * 0.22s),
+    transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) calc(0.1s + var(--i) * 0.22s);
+}
+:global(.js) .track .krok,
+:global(.js) .track .stepTitle,
+:global(.js) .track .stepText {
+  opacity: 0;
+  transform: translate3d(0, 16px, 0);
+  transition:
+    opacity 0.6s ease calc(0.2s + var(--i) * 0.22s),
+    transform 0.7s var(--ease-out) calc(0.2s + var(--i) * 0.22s);
+}
+
+:global(.js) .track:global(.is-visible) .line { transform: scaleX(1); }
+:global(.js) .track:global(.is-visible) .connector { transform: scaleY(1); }
+:global(.js) .track:global(.is-visible) .circle,
+:global(.js) .track:global(.is-visible) .krok,
+:global(.js) .track:global(.is-visible) .stepTitle,
+:global(.js) .track:global(.is-visible) .stepText {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :global(.js) .track .line,
+  :global(.js) .track .connector,
+  :global(.js) .track .circle,
+  :global(.js) .track .krok,
+  :global(.js) .track .stepTitle,
+  :global(.js) .track .stepText { opacity: 1; transform: none; }
+}

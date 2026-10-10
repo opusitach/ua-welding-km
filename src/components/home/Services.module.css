@@ -1,0 +1,147 @@
+.section {
+  background: var(--bg-2);
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  padding-block: var(--section-y);
+}
+
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(40px, 4.5vw, 64px);
+}
+
+.head {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+.headTitle {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  max-width: 720px;
+}
+.headText { max-width: 600px; }
+
+.cards {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: clamp(16px, 1.7vw, 24px);
+}
+.cardWrap { display: flex; }
+
+.card {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: clamp(32px, 3vw, 44px) clamp(24px, 2.8vw, 40px) clamp(36px, 3.3vw, 48px);
+  background: var(--bg);
+  border-top: 4px solid var(--accent);
+  position: relative;
+  transition: transform 0.35s var(--ease-out);
+}
+.card::after {
+  content: "";
+  position: absolute;
+  inset: -4px 0 0 0;
+  box-shadow: 0 0 0 1px #3a3524, 0 18px 40px -20px rgba(0, 0, 0, 0.8);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.35s ease;
+}
+.card:hover { transform: translateY(-6px); }
+.card:hover::after { opacity: 1; }
+
+.num {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: clamp(44px, 3.9vw, 56px);
+  line-height: 1;
+  color: var(--accent);
+}
+
+.cardBody {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.cardTitle {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(20px, 1.7vw, 24px);
+  line-height: 1.25;
+  text-transform: uppercase;
+  color: var(--text-heading);
+}
+.cardText {
+  font-size: 18px;
+  line-height: 1.6;
+  color: var(--text-3);
+}
+
+/* Tablet: one column, number beside the text */
+@media (min-width: 600px) and (max-width: 899px) {
+  .card {
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 32px;
+  }
+  .num { min-width: 72px; }
+  .cardBody { gap: 12px; }
+}
+
+@media (min-width: 900px) {
+  .cards { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+
+@media (min-width: 1024px) {
+  .head {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 80px;
+  }
+  .headText { max-width: 480px; }
+}
+
+/* ---------- Yellow CTA ---------- */
+.cta {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 24px;
+  padding: clamp(28px, 3.3vw, 40px) clamp(24px, 3.3vw, 48px);
+  background: var(--accent);
+  color: var(--bg);
+}
+.ctaText {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.ctaTitle {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: clamp(24px, 2.1vw, 30px);
+  line-height: 1.15;
+  text-transform: uppercase;
+}
+.ctaSub {
+  font-size: clamp(17px, 1.35vw, 19px);
+  font-weight: 500;
+  line-height: 1.5;
+}
+.ctaArrow { color: var(--accent); }
+.ctaBtn { flex-shrink: 0; }
+
+@media (min-width: 768px) {
+  .cta {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 40px;
+  }
+}
